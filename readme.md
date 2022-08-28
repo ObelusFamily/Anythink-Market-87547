@@ -16,3 +16,4 @@ When implementing a new feature or fixing a bug, please create a new pull reques
 - [ ] **Pointing your browser to** http://localhost:3000/api/ping
 - [ ] Create a new user on http://localhost:3001/register
 - [ ] Just make sure that you run all scripts in the next quests on one of the containers created by `docker-compose up`.  Also, you can use `docker exec` to run commands on a running container.
+- [ ] done
