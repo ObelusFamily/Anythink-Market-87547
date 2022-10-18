@@ -27,14 +27,14 @@ router = APIRouter()
 async def get_items_for_user_feed(
     limit: int = Query(DEFAULT_ITEMS_LIMIT, ge=1),
     offset: int = Query(DEFAULT_ITEMS_OFFSET, ge=0),
-    filter: str = Query(""),
+    title: str = Query(""),
     user: User = Depends(get_current_user_authorizer()),
     items_repo: ItemsRepository = Depends(get_repository(ItemsRepository)),
 ) -> ListOfItemsInResponse:
     items = await items_repo.get_items_for_user_feed(
         user=user,
         limit=limit,
-        filter=filter,
+        title=title,
         offset=offset,
     )
     items_for_response = [
