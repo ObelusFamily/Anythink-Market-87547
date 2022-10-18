@@ -214,6 +214,7 @@ class ItemsRepository(BaseRepository):  # noqa: WPS214
         *,
         user: User,
         limit: int = 20,
+        filter: str = "",
         offset: int = 0,
     ) -> List[Item]:
         items_rows = await queries.get_items_for_feed(
@@ -228,6 +229,7 @@ class ItemsRepository(BaseRepository):  # noqa: WPS214
                 slug=item_row[SLUG_ALIAS],
                 seller_username=item_row[SELLER_USERNAME_ALIAS],
                 requested_user=user,
+                filter=filter
             )
             for item_row in items_rows
         ]
@@ -295,9 +297,10 @@ class ItemsRepository(BaseRepository):  # noqa: WPS214
         item_row: Record,
         slug: str,
         seller_username: str,
+        filter: str,
         requested_user: Optional[User],
     ) -> Item:
-        title_query = Query.from_(items).select(items.title).where(items.slug == slug)
+        title_query = Query.from_(items).select(items.title).where(items.slug == slug and items.title ==filter)
         result_rows = await self.connection.fetch(title_query.get_sql())
         if not len(result_rows):
             raise Exception(f'No item with slug {slug}')
