@@ -104,7 +104,7 @@ class ItemsRepository(BaseRepository):  # noqa: WPS214
         self,
         *,
         tag: Optional[str] = None,
-        term: Optional[str] = None,
+        title: Optional[str] = None,
         seller: Optional[str] = None,
         favorited: Optional[str] = None,
         limit: int = 20,
@@ -158,10 +158,10 @@ class ItemsRepository(BaseRepository):  # noqa: WPS214
             )
             # fmt: on
 
-        if term:
-            query_params.append(term)
+        if title:
+            query_params.append(title)
             query_params_count += 1
-            query = query.where(items.title == term)
+            query = query.where(items.title == title)
 
         if seller:
             query_params.append(seller)
