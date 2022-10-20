@@ -32,3 +32,4 @@ fi
 printf "[===] SUCCESS: Your local 'main' branch is now up to date with origin.\n"
 sendEvent true
 exit 0
+
