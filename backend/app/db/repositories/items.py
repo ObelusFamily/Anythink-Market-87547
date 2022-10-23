@@ -107,6 +107,7 @@ class ItemsRepository(BaseRepository):  # noqa: WPS214
         seller: Optional[str] = None,
         favorited: Optional[str] = None,
         limit: int = 20,
+        title: str = None,
         offset: int = 0,
         requested_user: Optional[User] = None,
     ) -> List[Item]:
@@ -196,6 +197,8 @@ class ItemsRepository(BaseRepository):  # noqa: WPS214
                 ),
             )
             # fmt: on
+        if title:
+            query = query.where(items.title.ilike(f'%{title}%'))
 
         query = query.limit(Parameter(query_params_count + 1)).offset(
             Parameter(query_params_count + 2),
