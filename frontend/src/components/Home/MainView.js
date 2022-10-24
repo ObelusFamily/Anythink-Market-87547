@@ -2,22 +2,31 @@ import ItemList from "../ItemList";
 import React from "react";
 import agent from "../../agent";
 import { connect } from "react-redux";
-import { CHANGE_TAB, UPDATE_TITLE_SEARCH_VALUE } from "../../constants/actionTypes";
+import {
+  CHANGE_TAB,
+  UPDATE_TITLE_SEARCH_VALUE,
+} from "../../constants/actionTypes";
 
 const Search = (props) => {
-    const clickHandler = (e) => {
-      e.preventDefault();
-      props.onNewSearch("all", agent.Items.all, agent.Items.all(props.searchValue || ""));
-    };
-
-    const onTextUpdate=(e)=>props.onSearchValueChange(e.target.value)
-
-    return (
-      <div className="search-box">
-      <input type="text" onChange={onTextUpdate} value={props.searchValue} />
-      <button type="button" onClick={clickHandler}>Search</button>
-    </div>
+  const clickHandler = (e) => {
+    e.preventDefault();
+    props.onNewSearch(
+      "all",
+      agent.Items.all,
+      agent.Items.all(props.searchValue || "")
     );
+  };
+
+  const onTextUpdate = (e) => props.onSearchValueChange(e.target.value);
+
+  return (
+    <div className="search-box">
+      <input type="text" onChange={onTextUpdate} value={props.searchValue} />
+      <button type="button" onClick={clickHandler}>
+        Search
+      </button>
+    </div>
+  );
 };
 
 const YourFeedTab = (props) => {
@@ -45,7 +54,11 @@ const YourFeedTab = (props) => {
 const GlobalFeedTab = (props) => {
   const clickHandler = (ev) => {
     ev.preventDefault();
-    props.onTabClick("all", agent.Items.all, agent.Items.all(props.searchValue || ""));
+    props.onTabClick(
+      "all",
+      agent.Items.all,
+      agent.Items.all(props.searchValue || "")
+    );
   };
   return (
     <li className="nav-item">
@@ -83,7 +96,7 @@ const mapStateToProps = (state) => ({
 const mapDispatchToProps = (dispatch) => ({
   onTabClick: (tab, pager, payload) =>
     dispatch({ type: CHANGE_TAB, tab, pager, payload }),
-    onNewSearch: (tab, pager, payload) =>
+  onNewSearch: (tab, pager, payload) =>
     dispatch({ type: CHANGE_TAB, tab, pager, payload }),
   onSearchValueChange: (searchValue) =>
     dispatch({ type: UPDATE_TITLE_SEARCH_VALUE, payload: { searchValue } }),
@@ -100,18 +113,22 @@ const MainView = (props) => {
             onTabClick={props.onTabClick}
           />
 
-          <GlobalFeedTab tab={props.tab} onTabClick={props.onTabClick} searchValue= {props.searchValue} />
+          <GlobalFeedTab
+            tab={props.tab}
+            onTabClick={props.onTabClick}
+            searchValue={props.searchValue}
+          />
 
           <TagFilterTab tag={props.tag} />
         </ul>
       </div>
-      {props.tab === "all" &&
-      <Search 
-        onSearchValueChange={props.onSearchValueChange}
-        searchValue= {props.searchValue}
-        onNewSearch= {props.onNewSearch}
+      {props.tab === "all" && (
+        <Search
+          onSearchValueChange={props.onSearchValueChange}
+          searchValue={props.searchValue}
+          onNewSearch={props.onNewSearch}
         />
-  }
+      )}
 
       <ItemList
         pager={props.pager}
