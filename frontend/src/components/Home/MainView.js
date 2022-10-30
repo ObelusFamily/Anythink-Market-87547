@@ -2,32 +2,7 @@ import ItemList from "../ItemList";
 import React from "react";
 import agent from "../../agent";
 import { connect } from "react-redux";
-import {
-  CHANGE_TAB,
-  UPDATE_TITLE_SEARCH_VALUE,
-} from "../../constants/actionTypes";
-
-const Search = (props) => {
-  const clickHandler = (e) => {
-    e.preventDefault();
-    props.onNewSearch(
-      "all",
-      agent.Items.all,
-      agent.Items.all(props.searchValue || "")
-    );
-  };
-
-  const onTextUpdate = (e) => props.onSearchValueChange(e.target.value);
-
-  return (
-    <div className="search-box">
-      <input type="text" onChange={onTextUpdate} value={props.searchValue} />
-      <button type="button" onClick={clickHandler}>
-        Search
-      </button>
-    </div>
-  );
-};
+import { CHANGE_TAB } from "../../constants/actionTypes";
 
 const YourFeedTab = (props) => {
   if (props.token) {
@@ -96,10 +71,6 @@ const mapStateToProps = (state) => ({
 const mapDispatchToProps = (dispatch) => ({
   onTabClick: (tab, pager, payload) =>
     dispatch({ type: CHANGE_TAB, tab, pager, payload }),
-  onNewSearch: (tab, pager, payload) =>
-    dispatch({ type: CHANGE_TAB, tab, pager, payload }),
-  onSearchValueChange: (searchValue) =>
-    dispatch({ type: UPDATE_TITLE_SEARCH_VALUE, payload: { searchValue } }),
 });
 
 const MainView = (props) => {
@@ -122,13 +93,6 @@ const MainView = (props) => {
           <TagFilterTab tag={props.tag} />
         </ul>
       </div>
-      {props.tab === "all" && (
-        <Search
-          onSearchValueChange={props.onSearchValueChange}
-          searchValue={props.searchValue}
-          onNewSearch={props.onNewSearch}
-        />
-      )}
 
       <ItemList
         pager={props.pager}

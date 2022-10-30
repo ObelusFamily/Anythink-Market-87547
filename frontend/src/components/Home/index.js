@@ -8,6 +8,8 @@ import {
   HOME_PAGE_LOADED,
   HOME_PAGE_UNLOADED,
   APPLY_TAG_FILTER,
+  UPDATE_TITLE_SEARCH_VALUE,
+  SEARCH_ITEMS,
 } from "../../constants/actionTypes";
 
 const Promise = global.Promise;
@@ -16,6 +18,7 @@ const mapStateToProps = (state) => ({
   ...state.home,
   appName: state.common.appName,
   token: state.common.token,
+  searchValue: state.itemList.searchValue,
 });
 
 const mapDispatchToProps = (dispatch) => ({
@@ -24,6 +27,10 @@ const mapDispatchToProps = (dispatch) => ({
   onLoad: (tab, pager, payload) =>
     dispatch({ type: HOME_PAGE_LOADED, tab, pager, payload }),
   onUnload: () => dispatch({ type: HOME_PAGE_UNLOADED }),
+  onSearchValueChange: (searchValue) =>
+    dispatch({ type: UPDATE_TITLE_SEARCH_VALUE, payload: { searchValue } }),
+  searchNew: (tag, pager, payload) =>
+    dispatch({ type: SEARCH_ITEMS, tag, pager, payload }),
 });
 
 class Home extends React.Component {
@@ -34,18 +41,36 @@ class Home extends React.Component {
     this.props.onLoad(
       tab,
       itemsPromise,
-      Promise.all([agent.Tags.getAll(), itemsPromise()])
+      Promise.all([agent.Tags.getAll(), itemsPromise(this.props.searchValue)])
     );
+    this.onSearchValueChange = this.onSearchValueChange.bind(this);
   }
 
   componentWillUnmount() {
     this.props.onUnload();
   }
 
+  onSearchValueChange = async (e) => {
+    e.preventDefault();
+    const searchValue = e.target.value;
+    this.props.onSearchValueChange(searchValue);
+
+    if (searchValue.length >= 3) {
+      this.props.searchNew(
+        "all",
+        agent.Items.all,
+        await agent.Items.all(searchValue)
+      );
+    }
+  };
+
   render() {
     return (
       <div className="home-page">
-        <Banner />
+        <Banner
+          searchValue={this.props.searchValue}
+          onSearchValueChange={this.onSearchValueChange}
+        />
 
         <div className="container page">
           <Tags tags={this.props.tags} onClickTag={this.props.onClickTag} />
