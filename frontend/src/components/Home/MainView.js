@@ -100,6 +100,7 @@ const MainView = (props) => {
         loading={props.loading}
         itemsCount={props.itemsCount}
         currentPage={props.currentPage}
+        searchValue={props.searchValue}
       />
     </div>
   );
