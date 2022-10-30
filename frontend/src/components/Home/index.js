@@ -30,7 +30,7 @@ const mapDispatchToProps = (dispatch) => ({
   onSearchValueChange: (searchValue) =>
     dispatch({ type: UPDATE_TITLE_SEARCH_VALUE, payload: { searchValue } }),
   searchNew: (tag, pager, payload) =>
-    dispatch({type: SEARCH_ITEMS, tag, pager, payload}),
+    dispatch({ type: SEARCH_ITEMS, tag, pager, payload }),
 });
 
 class Home extends React.Component {
