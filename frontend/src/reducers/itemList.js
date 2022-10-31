@@ -12,6 +12,7 @@ import {
   PROFILE_FAVORITES_PAGE_UNLOADED,
   UPDATE_TITLE_SEARCH_VALUE,
   SEARCH_ITEMS,
+  TOGGLE_SEARCH_BOX,
 } from "../constants/actionTypes";
 
 const reducer = (state = {}, action) => {
@@ -83,6 +84,11 @@ const reducer = (state = {}, action) => {
       return {
         ...state,
         searchValue: action.payload.searchValue,
+      };
+    case TOGGLE_SEARCH_BOX:
+      return {
+        ...state,
+        displaySearchBox: action.displaySearchBox,
       };
     case SEARCH_ITEMS:
       return {
