@@ -10,7 +10,6 @@ import {
   APPLY_TAG_FILTER,
   UPDATE_TITLE_SEARCH_VALUE,
   SEARCH_ITEMS,
-  TOGGLE_SEARCH_BOX,
 } from "../../constants/actionTypes";
 
 const Promise = global.Promise;
@@ -20,7 +19,6 @@ const mapStateToProps = (state) => ({
   appName: state.common.appName,
   token: state.common.token,
   searchValue: state.itemList.searchValue,
-  displaySearchBox: state.itemList.displaySearchBox,
 });
 
 const mapDispatchToProps = (dispatch) => ({
@@ -31,8 +29,6 @@ const mapDispatchToProps = (dispatch) => ({
   onUnload: () => dispatch({ type: HOME_PAGE_UNLOADED }),
   onSearchValueChange: (searchValue) =>
     dispatch({ type: UPDATE_TITLE_SEARCH_VALUE, payload: { searchValue } }),
-  onToggleSearchBox: () =>
-    dispatch({ type: TOGGLE_SEARCH_BOX, displaySearchBox: true }),
   searchNew: (tag, pager, payload) =>
     dispatch({ type: SEARCH_ITEMS, tag, pager, payload }),
 });
@@ -72,9 +68,7 @@ class Home extends React.Component {
       <div className="home-page">
         <Banner
           searchValue={this.props.searchValue}
-          displaySearchBox={this.props.displaySearchBox}
           onSearchValueChange={this.onSearchValueChange}
-          onToggleSearchBox={this.props.onToggleSearchBox}
         />
 
         <div className="container page">
